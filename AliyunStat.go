@@ -1,9 +1,6 @@
 package main
 
-import (
-	"AliyunStat/wrapper"
-)
+import ()
 
 func main() {
-	wrapper.Test()
 }

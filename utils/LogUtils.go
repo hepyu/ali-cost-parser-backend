@@ -14,7 +14,7 @@ import (
 func init() {
 	baseLogPath := path.Join(settings.LogPath, settings.LogFileName)
 
-	writer, err := rotatelogs.New(baseLogPath+".%Y%m%d%H%M", rotatelogs.WithLinkName(baseLogPath), rotatelogs.WithMaxAge(settings.MaxAge), rotatelogs.WithRotationTime(settings.RotationTime))
+	writer, err := rotatelogs.New(baseLogPath+".%Y%m%d%H%M", rotatelogs.WithLinkName(baseLogPath), rotatelogs.WithMaxAge(settings.LogMaxAge), rotatelogs.WithRotationTime(settings.LogRotationTime))
 
 	if err != nil {
 		logrus.Errorf("config local file system logger error. %+v", errors.WithStack(err))
@@ -29,37 +29,37 @@ func init() {
 
 	lfHook := lfshook.NewHook(lfshook.WriterMap{
 		//为不同级别设置不同的输出目的
-		log.DebugLevel: writer,
-		log.InfoLevel:  writer,
-		log.WarnLevel:  writer,
-		log.ErrorLevel: writer,
-		log.FatalLevel: writer,
-		log.PanicLevel: writer,
-	})
+		logrus.DebugLevel: writer,
+		logrus.InfoLevel:  writer,
+		logrus.WarnLevel:  writer,
+		logrus.ErrorLevel: writer,
+		logrus.FatalLevel: writer,
+		logrus.PanicLevel: writer,
+	}, &logrus.JSONFormatter{})
 
 	logrus.AddHook(lfHook)
 }
 
-func LogDebug(log string) {
+func LogDebug(log interface{}) {
 	logrus.Debug(log)
 }
 
-func LogInfo(log string) {
+func LogInfo(log interface{}) {
 	logrus.Info(log)
 }
 
-func LogWarn(log string) {
+func LogWarn(log interface{}) {
 	logrus.Warn(log)
 }
 
-func LogError(log string) {
+func LogError(log interface{}) {
 	logrus.Error(log)
 }
 
-func LogFatal(log string) {
+func LogFatal(log interface{}) {
 	logrus.Fatal(log)
 }
 
-func LogPanic(log string) {
+func LogPanic(log interface{}) {
 	logrus.Panic(log)
 }
